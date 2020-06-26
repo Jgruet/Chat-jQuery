@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Mon site</title>
+    <script src="/node_modules/jquery/dist/jquery.min.js"></script>
+    <script src="index.js"></script>
+  </head>
+  <body>
+    <h1>Le titre de mon site</h1>
+
+    <div>
+      <select id="gender">
+        <option value="female">Femme</option>
+        <option value="male">Homme</option>
+      </select>
+      <select id="nat">
+        <option value="fr">Français</option>
+        <option value="ie">Irlandais</option>
+        <option value="es">Espagnol</option>
+        <option value="de">Allemand</option>
+      </select>
+    </div>
+
+    <button id="btLoadUser">Charger un utilisateur</button>
+
+    <nav>
+      <ul>
+        <li>
+          <a href="" data-target="home">Home</a>
+        </li>
+        <li>
+          <a href="" data-target="contact">Contact</a>
+        </li>
+      </ul>
+    </nav>
+
+    <img src="" id="photo" />
+    <h2 id="greet"></h2>
+
+    <div id="content"></div>
+  </body>
+</html>

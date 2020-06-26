@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Salles de sport à Bordeaux</title>
+    <script src="/node_modules/jquery/dist/jquery.min.js"></script>
+    <script>
+      $(document).ready(function () {
+        const flickerAPI =
+          "https://api.flickr.com/services/feeds/photos_public.gne?jsoncallback=?";
+        const params = { tags: "cats", format: "json" };
+        $.getJSON(flickerAPI, params, function (response) {
+          console.log(response);
+        });
+
+        //Cibler le tbody
+        $tbody = $("#salles-de-sport");
+
+        //Requête pour obtenir les données
+        const URL =
+          "https://opendata.bordeaux-metropole.fr/api/records/1.0/search/?dataset=bor_poisport&q=&facet=stheme";
+        $.get(URL, function (response) {
+          const liste = response.records;
+
+          for (salle of liste) {
+            const $ligne = $(`<tr>
+                    <td>${salle.fields.nom}</td>
+                    <td>${salle.fields.adresse}</td>
+                </tr>`);
+
+            $tbody.append($ligne);
+          }
+        });
+      });
+    </script>
+  </head>
+  <body>
+    <table>
+      <thead>
+        <tr>
+          <th>Nom</th>
+          <th>Adresse</th>
+        </tr>
+      </thead>
+      <tbody id="salles-de-sport"></tbody>
+    </table>
+  </body>
+</html>

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Menu</title>
+    <script src="../node_modules/jquery/dist/jquery.min.js"></script>
+    <link
+      rel="stylesheet"
+      href="../node_modules/bootstrap/dist/css/bootstrap.min.css"
+    />
+
+    <script>
+      $(document).ready(function () {
+        const $menuLinks = $("ul h3, ul h4");
+
+        $("ul").addClass("list-group");
+        $("li").addClass("list-group-item");
+
+        $menuLinks.next("ul").hide();
+
+        $menuLinks.css("cursor", "pointer").click(function () {
+          $(this).toggleClass("text-primary").next("ul").toggle();
+        });
+      });
+    </script>
+  </head>
+  <body>
+    <ul>
+      <li>
+        <h3>Frontend</h3>
+        <ul>
+          <li>
+            <h4>Javascript</h4>
+            <ul>
+              <li>React</li>
+              <li>Angular</li>
+              <li>Vue</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li>
+        <h3>Backend</h3>
+        <ul>
+          <li>
+            <h4>PHP</h4>
+            <ul>
+              <li>Symfony</li>
+              <li>Laravel</li>
+              <li>Yii</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </body>
+</html>

@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Boite de dialogue</title>
+    <style>
+      #dialog {
+        border: 1px solid #444;
+        border-radius: 15px;
+        box-shadow: 3px 3px 5px #222;
+        background-color: #d5d4d0;
+        padding: 15px;
+      }
+    </style>
+    <script src="../node_modules/jquery/dist/jquery.min.js"></script>
+    <script>
+      $(document).ready(function () {
+        const $dialog = $("#dialog");
+
+        // Style du dialog
+        $dialog.css({
+          position: "absolute",
+          width: "20%",
+          height: "30%",
+        });
+
+        // Fonction de centrage
+        function centerDialog() {
+          $dialog.css({
+            top: $(window).height() / 2 - $dialog.height() / 2,
+            left: $(window).width() / 2 - $dialog.width() / 2,
+          });
+          console.log($dialog.css("left"));
+          console.log($(window).width());
+        }
+
+        // Appel de la fonction de cetrage a lancement
+        centerDialog();
+
+        //Centrage de la fenêtre lorsque on redimensionne la fenêtre
+        $(window).resize(function () {
+          console.log("ok");
+          centerDialog();
+        });
+
+        /*
+         * Réaliser un tooltip sur le dialog
+         *   Au glissement de la souris sur la cible faire apparaitre un cadre
+         *       qui contient un texte d'aide
+         *       ce cadre est positionné par les coordonnées
+         *       Le texte de la bulle d'aide doit être récupéré depuis un
+         *       attribut data-help de dialog
+         *   Au sortir de dialog faire disparaitre le cadre
+         *   Au déplacement de la souris dans dialog change les coordonnées du
+         *   cadre
+         *
+         * events :
+         *   - mouseenter
+         *   - mouseleave
+         *   - mousemove
+         */
+
+        const $tooltip = $("#tooltip");
+        //Masquer le tooltip
+        $tooltip
+          .css({
+            position: "absolute",
+            padding: "10px",
+            backgroundColor: "yellow",
+          })
+          .hide();
+
+        $dialog.mouseover(function (event) {
+          event.stopPropagation();
+          const helpText = $(this).data("help");
+          $tooltip.html(helpText);
+          $tooltip.show();
+          const posx = event.clientX + "px";
+          const posy = event.clientY + "px";
+          $tooltip.css({
+            left: posx,
+            top: posy,
+          });
+        });
+
+        $dialog.mouseout(function () {
+          console.log("out");
+          $tooltip.hide();
+        });
+
+        $dialog.mousemove(function (event) {
+          event.stopPropagation();
+          const posx = event.clientX + "px";
+          const posy = event.clientY + "px";
+          $tooltip.css({
+            left: posx,
+            top: posy,
+          });
+        });
+      });
+    </script>
+  </head>
+  <body>
+    <div id="dialog" data-help="Vous voulez vraiment de l'aide">
+      <h1>Titre de la fenêtre</h1>
+    </div>
+
+    <div id="tooltip"></div>
+  </body>
+</html>

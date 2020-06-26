@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Selecteurs</title>
+    <script src="../node_modules/jquery/dist/jquery.min.js"></script>
+    <script>
+      $(document).ready(function () {
+        const $h2 = $("h2");
+
+        $(".js").text(function (index, oldValue) {
+          return "\u2638" + oldValue;
+        });
+
+        $("a[href^=https]").css("color", "red");
+
+        $("#frameworks").hide().prev().hide();
+        //console.log($("ul#frameworks~h2"));
+      });
+    </script>
+  </head>
+  <body>
+    <h2>Les langages</h2>
+    <ul id="languages">
+      <li>Java</li>
+      <li class="js">
+        Javascript
+      </li>
+      <li>Python</li>
+    </ul>
+    <h2>Les frameworks</h2>
+    <ul id="frameworks">
+      <li>Spring</li>
+      <li class="js">Angular</li>
+      <li>Django</li>
+    </ul>
+    <a href="https://randomuser.me/"> users</a>
+    <a href="https://www.google.fr/"> Google</a>
+    <a href="http://www.w3.org/"> W3C</a>
+  </body>
+</html>

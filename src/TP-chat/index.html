@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Chat</title>
+    <link rel="stylesheet" href="/node_modules/bootstrap/dist/css/bootstrap.min.css">
+
+    <style>
+        #roomContainer li{
+            cursor: pointer;
+        }
+    </style>
+
+    <script src="/node_modules/jquery/dist/jquery.min.js"></script>
+    <script src="/node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="chat.js"></script>
+</head>
+<body class="container-fluid">
+<div class="row justify-content-center mt-5">
+    <div class="col-md-10 col-lg-8 bg-info p-2">
+        <header class="row">
+            <div class="col-2">
+                <h1>Chat</h1>
+            </div>
+            <div class="col text-right" id="userInfos">
+                <h4>Bonjour Marvin</h4>
+            </div>
+        </header>
+
+        <div class="alert alert" id="alert">
+            Un message
+        </div>
+
+
+        <div class="row mb-3 mt-2">
+            <nav class="col-12">
+                <ul class="nav">
+                    <li class="nav-item mr-3">
+                        <button class="btn btn-dark" data-toggle="modal" data-target="#loginModal">Login</button>
+                    </li>
+                    <li class="nav-item">
+                        <button class="btn btn-dark" data-toggle="modal" data-target="#registerModal">Inscription
+                        </button>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+
+        <section class="row">
+            <aside class="col-5 text-light">
+
+                <form id="messageForm" method="post">
+                    <h4>Nouveau message</h4>
+                    <div class="form-group">
+                        <textarea class="form-control" name="text" rows="4" ></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary">
+                        Envoyer
+                    </button>
+                </form>
+                <hr>
+                <div id="roomContainer">
+                    <h4>Liste des salons</h4>
+                    <ul class="list-group text-dark">
+                        <li class="list-group-item">
+                            jQuery
+                        </li>
+                        <li class="list-group-item active">
+                            HTML
+                        </li>
+                        <li class="list-group-item">
+                            CSS
+                        </li>
+                    </ul>
+                </div>
+                <hr>
+                <div>
+                    <h4>Nouveau salon</h4>
+                    <form id="roomForm" method="post" class="form-inline">
+                        <input type="text" name="title" class="form-control mr-2">
+                        <button type="submit" class="btn btn-primary">Envoyer</button>
+                    </form>
+                </div>
+
+            </aside>
+
+            <article class="col-7">
+                <div id="messagesContainer">
+                    <div class="bg-light p-2 mb-2" id="messageTemplate">
+                        <h4>Marvin à dit :</h4>
+                        <p class="pl-3">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus aperiam
+                            deserunt dolor
+                            dolorum ducimus error ex fugit laudantium nam, nobis perspiciatis quasi quidem quod sint
+                            suscipit temporibus tenetur? Minima, tenetur?</p>
+                    </div>
+                </div>
+            </article>
+        </section>
+    </div>
+</div>
+
+<div id="loginModal" class="modal fade">
+
+    <div class="modal-dialog modal-dialog-centered">
+
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Login</h4>
+                <button type="button" class="close" data-dismiss="modal">
+                    <span>&times;</span>
+                </button>
+            </div>
+            <form method="post" id="loginForm">
+
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label>Identifiant</label>
+                        <input type="text" name="login" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label>Mot de passe</label>
+                        <input type="password" name="password" class="form-control">
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">Connexion</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div id="registerModal" class="modal fade">
+
+    <div class="modal-dialog modal-dialog-centered">
+
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Inscription</h4>
+                <button type="button" class="close" data-dismiss="modal">
+                    <span>&times;</span>
+                </button>
+            </div>
+            <form method="post" id="registerForm">
+
+                <div class="modal-body">
+
+                    <div class="form-group">
+                        <label>Nom</label>
+                        <input type="text" name="name" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label>Identifiant</label>
+                        <input type="text" name="login" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label>Mot de passe</label>
+                        <input type="password" name="password" class="form-control">
+                    </div>
+
+                </div>
+
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">Valider</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

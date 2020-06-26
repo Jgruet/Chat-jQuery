@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Formulaire adresse</title>
+    <link
+      rel="stylesheet"
+      href="../node_modules/bootstrap/dist/css/bootstrap.min.css"
+    />
+    <script src="../node_modules/jquery/dist/jquery.min.js"></script>
+    <script>
+      $(document).ready(function () {
+        const $btAdd = $("#btAddAddress");
+        const $addressTemplate = $("#addressTemplate").clone();
+        const $adressesContainer = $("#adresses-container");
+
+        function renumberAdresses() {
+          $(".address-title").text(function (index) {
+            return "adresse numéro " + (index + 1);
+          });
+        }
+
+        renumberAdresses();
+
+        $btAdd.click(function () {
+          const $template = $addressTemplate.clone().removeAttr("id");
+          $adressesContainer.append($template);
+
+          renumberAdresses();
+        });
+
+        $adressesContainer.delegate(".delete-address", "click", function () {
+          $(this).parent().remove();
+          renumberAdresses();
+        });
+      });
+    </script>
+  </head>
+  <body class="p-5 container-fluid">
+    <form method="POST" action="test-form.php">
+      <div class="row justify-content-center">
+        <div class="col-md-8">
+          <div class="form-group">
+            <label>Nom</label>
+            <input type="text" class="form-control" name="nom" />
+          </div>
+          <button class="btn btn-primary btn-block mt-4 mb-5" type="submit">
+            Envoyer le formulaire
+          </button>
+
+          <button class="btn btn-primary" id="btAddAddress" type="button">
+            Ajouter une adresse
+          </button>
+          <div class="row" id="adresses-container">
+            <div class="col-md-6" id="addressTemplate">
+              <h3 class="address-title mt-3">Adresse 1</h3>
+              <div class="form-group">
+                <label>Rue</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  name="adresses[][street]"
+                />
+              </div>
+              <div class="form-group">
+                <label>Code postal</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  name="adresses[][zipcode]"
+                />
+              </div>
+              <div class="form-group">
+                <label>Ville</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  name="adresses[][city]"
+                />
+              </div>
+              <button class="btn btn-danger btn-block delete-address">
+                Supprimer l'adresse
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+  </body>
+</html>

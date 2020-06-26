@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>insertion DOM</title>
+    <link
+      rel="stylesheet"
+      href="../node_modules/bootstrap/dist/css/bootstrap.min.css"
+    />
+    <script src="../node_modules/jquery/dist/jquery.min.js"></script>
+    <script>
+      $(document).ready(function () {
+        const $body = $("body");
+
+        // Cibles du formulaire
+        const $inputLabel = $("#inputLabel");
+        const $inputAmount = $("#inputAmount");
+        const $selectType = $("#selectType");
+        const $form = $("#budgetForm");
+
+        budgetList = [
+          { label: "bouquins info", amount: -500, id: 1 },
+          { label: "courses", amount: -150, id: 2 },
+          { label: "loyer", amount: -800, id: 3 },
+          { label: "salaire", amount: 2500, id: 4 },
+        ];
+
+        function getRow(item) {
+          const $tr = $(`<tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td>
+                    <button class="delete btn btn-danger" 
+                    data-id="${item.id}">Supprimer</button> 
+                    <button class="update btn btn-success" 
+                    data-id="${item.id}">Modifier</button> 
+                </td>
+            </tr>`);
+
+          $tr
+            .children()
+            .first()
+            .text(item.label)
+            .next()
+            .text(item.amount < 0 ? Math.abs(item.amount) : 0)
+            .next()
+            .text(item.amount > 0 ? item.amount : 0);
+
+          return $tr;
+        }
+
+        function hydrateTable() {
+          const $tbody = $("tbody");
+          const $shadowTbody = $("<tbody></tbody>");
+          var solde = 0;
+          var debit = 0;
+          var credit = 0;
+          for (let item of budgetList) {
+            $shadowTbody.append(getRow(item));
+
+            if (item.amount > 0) {
+              credit += item.amount;
+            } else {
+              debit += Math.abs(item.amount);
+            }
+          }
+          solde = credit - debit;
+
+          $("#debit").text(debit);
+          $("#credit").text(credit);
+          $("#solde").text(solde);
+
+          //remplacement
+          $tbody.replaceWith($shadowTbody);
+        }
+
+        // Clic sur les boutons supprimer
+        // (ceux dont la classe et delete)
+        // Délégation pour permettre que les boutons des nouvelles entrées
+        // soient également actifs
+        $("table").delegate(".delete", "click", function () {
+          // Récupération de l'id qui est un attribut data-id sur le bouton
+          const id = $(this).data("id");
+          // Récupération de l'index correspondant à l'id
+          const index = budgetList.findIndex(function (item) {
+            return item.id === id;
+          });
+          // Suppression dans le tableau
+          budgetList.splice(index, 1);
+
+          //Mise à jour de l'affichage
+          hydrateTable();
+        });
+
+        $("table").delegate(".update", "click", function () {
+          // Récupération de l'id qui est un attribut data-id sur le bouton
+          const id = $(this).data("id");
+          // Récupération de l'index correspondant à l'id
+          const index = budgetList.findIndex(function (item) {
+            return item.id === id;
+          });
+          const data = budgetList[index];
+          hydrateForm(data);
+        });
+
+        // Traitement du formulaire
+        $form.submit(function (event) {
+          event.preventDefault();
+
+          // récupération des données
+          const type = $selectType.val();
+          let amount = $inputAmount.val() - 0;
+          if (type == "Débit") {
+            amount *= -1;
+          }
+
+          let budgetLine;
+
+          // Récupération de l'id
+          const id = $form.data("id");
+          // Si j'ai un id alors modification
+          if (id) {
+            const index = budgetList.findIndex(function (item, index) {
+              return item.id === id;
+            });
+            console.log(id);
+            budgetLine = budgetList[index];
+            budgetLine.label = $inputLabel.val();
+            budgetLine.amount = amount;
+            // Sinon ajout
+          } else {
+            // Création d'un objet pour ajout à la source de données
+            budgetLine = {
+              label: $inputLabel.val(),
+              id: new Date().getTime(),
+              amount: amount,
+            };
+            // Ajout à la source de données
+            budgetList.push(budgetLine);
+          }
+
+          //Mise a jour de l'affichage du tableau html
+          hydrateTable();
+
+          // RAZ sur les champs
+          $inputAmount.val("");
+          $inputLabel.val("");
+          $selectType.val("Débit");
+          $form.data("id", "");
+
+          // focus sur le champ label
+          $inputLabel.focus();
+        });
+
+        function hydrateForm(data) {
+          $inputLabel.val(data.label);
+          $inputAmount.val(Math.abs(data.amount));
+          if (data.amount > 0) {
+            $selectType.val("Crédit");
+          } else {
+            $selectType.val("Débit");
+          }
+
+          $form.data("id", data.id);
+        }
+
+        //Appel de hydrateTable
+        hydrateTable();
+      });
+    </script>
+  </head>
+  <body class="container-fluid">
+    <div class="row justify-content-center">
+      <div class="col-md-8 col-lg-6">
+        <form id="budgetForm">
+          <div class="mt-2 row">
+            <div class="form-group col-lg-6">
+              <label>Libéllé</label>
+              <input type="text" id="inputLabel" class="form-control" />
+            </div>
+            <div class="form-group col-lg-3">
+              <label>Montant</label>
+              <input type="number" id="inputAmount" class="form-control" />
+            </div>
+            <div class="form-group col-lg-3">
+              <label>Type</label>
+              <select id="selectType" class="form-control">
+                <option>Débit</option>
+                <option>Crédit</option>
+              </select>
+            </div>
+          </div>
+          <button class="btn btn-primary btn-block mb-4" type="submit">
+            Valider
+          </button>
+        </form>
+
+        <table class="table table-striped">
+          <tfoot>
+            <tr>
+              <td>Totaux</td>
+              <td id="debit"></td>
+              <td id="credit"></td>
+              <td></td>
+            </tr>
+            <tr>
+              <td colspan="2">Solde</td>
+              <td id="solde"></td>
+              <td></td>
+            </tr>
+          </tfoot>
+          <thead>
+            <tr>
+              <th>Libéllé</th>
+              <th>débit</th>
+              <th>crédit</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </div>
+  </body>
+</html>

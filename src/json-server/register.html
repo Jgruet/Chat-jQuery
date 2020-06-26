@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Inscription</title>
+    <link
+      rel="stylesheet"
+      href="/node_modules/bootstrap/dist/css/bootstrap.min.css"
+    />
+    <script src="/node_modules/jquery/dist/jquery.min.js"></script>
+    <script>
+      function serializeObject(input) {
+        let data = {};
+        for (item of input) {
+          data[item.name] = item.value;
+        }
+
+        return data;
+      }
+
+      const URL = "https://protected-thicket-90040.herokuapp.com/users";
+      const LOGIN_URL = "https://protected-thicket-90040.herokuapp.com/login";
+
+      $(document).ready(function () {
+        // Utilisateur authentifié
+        var user = {};
+
+        // Cibles de l'application
+        const $registerForm = $("#registerForm");
+        const $loginForm = $("#loginForm");
+        const $login = $("#login");
+        const $register = $("#register");
+        const $message = $("#message");
+
+        //Masquer les formulaires
+        $login.hide();
+        $register.hide();
+
+        //Masquer les messages
+        $message.hide();
+
+        // Affichage des messages
+        function showMessage(text, className) {
+          $message.html(text);
+          if (className == "alert-danger") {
+            $message.addClass(className);
+            $message.removeClass("alert-success");
+          } else {
+            $message.addClass(className);
+            $message.removeClass("alert-danger");
+          }
+
+          $message.show();
+
+          setTimeout(function () {
+            $message.hide();
+          }, 1000);
+        }
+
+        //Boutons d'affichage des formulaires
+        $("#registerBtn").click(function (event) {
+          event.preventDefault();
+          $login.hide();
+          $register.show();
+        });
+
+        $("#loginBtn").click(function (event) {
+          event.preventDefault();
+          $login.show();
+          $register.hide();
+        });
+
+        // Traitement de l'inscription
+        $registerForm.submit(function (event) {
+          event.preventDefault();
+
+          //Récupération de la saisie
+          const data = $registerForm.serialize();
+
+          // Envoi des données avec POST
+          $.post(URL, data, function (res) {
+            console.log(res);
+            $register.hide();
+          });
+        });
+
+        // Traitement du login
+        $loginForm.submit(function (event) {
+          event.preventDefault();
+          const data = serializeObject($(this).serializeArray());
+          $.post(LOGIN_URL, data)
+            .done(function (res) {
+              user = res;
+              console.log(user);
+              $login.hide();
+              showMessage("Bonjour " + user.userName, "alert-success");
+            })
+            .fail(function (err) {
+              console.log(err);
+              showMessage("Impossible de vous connecter", "alert-danger");
+            });
+        });
+      });
+    </script>
+  </head>
+  <body class="container-fluid">
+    <div class="row justify-content-center">
+      <nav class="col-md-6">
+        <ul>
+          <li><a class="btn btn-primary" id="registerBtn">Inscription</a></li>
+          <li><a class="btn btn-primary" id="loginBtn">Login</a></li>
+        </ul>
+      </nav>
+    </div>
+    <div class="row justify-content-center">
+      <div id="message" class="alert"></div>
+
+      <div class="col-md-6" id="register">
+        <h2>Inscription</h2>
+        <form id="registerForm" method="POST">
+          <div class="form-group">
+            <label>Nom</label>
+            <input type="text" name="userName" class="form-control" />
+          </div>
+          <div class="form-group">
+            <label>Role</label>
+            <select name="role" class="form-control">
+              <option>user</option>
+              <option>admin</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>login</label>
+            <input type="text" name="login" class="form-control" />
+          </div>
+          <div class="form-group">
+            <label>Mot de passe</label>
+            <input type="password" name="password" class="form-control" />
+          </div>
+          <button
+            type="submit"
+            id="registerButton"
+            class="btn btn-primary btn-block"
+          >
+            Valider
+          </button>
+        </form>
+      </div>
+
+      <div class="col-md-6" id="login">
+        <h2>Login</h2>
+        <form id="loginForm" method="POST">
+          <div class="form-group">
+            <label>login</label>
+            <input type="text" name="login" class="form-control" />
+          </div>
+          <div class="form-group">
+            <label>Mot de passe</label>
+            <input type="password" name="password" class="form-control" />
+          </div>
+          <button
+            type="submit"
+            id="registerButton"
+            class="btn btn-primary btn-block"
+          >
+            Valider
+          </button>
+        </form>
+      </div>
+    </div>
+  </body>
+</html>

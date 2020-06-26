@@ -1,0 +1,46 @@
+{
+    "users": [
+        {
+            "id": 1,
+            "userName": "Joe User",
+            "role": "user",
+            "login": "juser",
+            "password": "123"
+        },
+        {
+            "id": 2,
+            "userName": "Jane Admin",
+            "role": "admin",
+            "login": "jadmin",
+            "password": "123"
+        },
+        {
+            "userName": "Alan Turing",
+            "role": "user",
+            "login": "a.turing",
+            "password": "123",
+            "id": 3
+        },
+        {
+            "userName": "Ada Lovelace",
+            "role": "admin",
+            "login": "a.lovelace",
+            "password": "123",
+            "id": 4
+        }
+    ],
+    "addresses": [
+        {
+            "id": 1,
+            "street": "5 rue des Granges",
+            "postalCode": "25000",
+            "city": "Besançon"
+        },
+        {
+            "id": 2,
+            "street": "5 rue Orfila",
+            "postalCode": "75020",
+            "city": "Paris"
+        }
+    ]
+}

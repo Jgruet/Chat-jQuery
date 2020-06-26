@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Intro jQuery</title>
+    <script src="../node_modules/jquery/dist/jquery.min.js"></script>
+    <script>
+      $(document).ready(function () {
+        const $title = $("h1");
+
+        $title.click(function () {
+          $(this).next().toggle(500);
+        });
+      });
+    </script>
+  </head>
+  <body>
+    <h1>Hello jQuery</h1>
+    <p>
+      Lorem ipsum dolor, sit amet consectetur adipisicing elit. Sit,
+      perspiciatis aspernatur? Delectus nisi beatae impedit aut vero
+      voluptatibus quas obcaecati ducimus hic esse non, odio perferendis quidem
+      id magni repudiandae.
+    </p>
+
+    <h1>Hello Javascript</h1>
+    <p>
+      Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorem beatae
+      consequuntur libero nam voluptatum quas porro enim vel at repudiandae
+      autem eum, nihil temporibus esse nisi consectetur! Earum, pariatur
+      accusamus.
+    </p>
+
+    <h1>Hello Angular</h1>
+    <p>
+      Lorem ipsum dolor sit amet consectetur adipisicing elit. Commodi culpa
+      necessitatibus atque obcaecati voluptatibus illum ipsam vero deserunt vel.
+      Veritatis fuga delectus vel molestias doloribus provident et fugit quae
+      nostrum.
+    </p>
+  </body>
+</html>
